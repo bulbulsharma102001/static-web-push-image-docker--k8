@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: static-web
-          image: bulbulsharma102001/static-web:latest
+          image: bulbulsharma102001/static-web:555
           ports:
             - containerPort: 80
 
