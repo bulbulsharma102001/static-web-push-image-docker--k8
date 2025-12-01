@@ -9,7 +9,7 @@ pipeline {
         DOCKER_CREDS = "dockerhub-creds"
         KUBE_CONFIG  = "kubeconfig-file"
 
-        // Your GitHub Repo
+        // GitHub Repo
         GIT_URL = "https://github.com/bulbulsharma102001/static-web-push-image-docker--k8.git"
     }
 
@@ -44,23 +44,22 @@ pipeline {
             }
         }
 
-       stage('Deploy to Kubernetes') {
-    steps {
-        withCredentials([file(credentialsId: KUBE_CONFIG, variable: "KUBECONFIG")]) {
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: KUBE_CONFIG, variable: "KUBECONFIG")]) {
 
-            bat '''
-            echo ===== Checking kubeconfig =====
-            set KUBECONFIG=%KUBECONFIG%
+                    bat '''
+                    echo ===== Checking kubeconfig =====
+                    set KUBECONFIG=%KUBECONFIG%
 
-            kubectl config current-context
-            kubectl get nodes
+                    kubectl config current-context
+                    kubectl get nodes
 
-            kubectl apply -f k8s.yaml --validate=false
-            kubectl rollout restart deployment static-web-deployment
-            '''
+                    kubectl apply -f k8s.yaml --validate=false
+                    kubectl rollout restart deployment static-web-deployment
+                    '''
+                }
+            }
         }
-    }
-}
-
     }
 }
