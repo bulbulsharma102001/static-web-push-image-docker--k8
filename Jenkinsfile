@@ -44,17 +44,23 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                withCredentials([file(credentialsId: KUBE_CONFIG, variable: "KUBECONFIG")]) {
+       stage('Deploy to Kubernetes') {
+    steps {
+        withCredentials([file(credentialsId: KUBE_CONFIG, variable: "KUBECONFIG")]) {
 
-                    bat '''
-                    set KUBECONFIG=%KUBECONFIG%
-                    kubectl apply -f k8s.yaml
-                    kubectl rollout restart deployment static-web-deployment
-                    '''
-                }
-            }
+            bat '''
+            echo ===== Checking kubeconfig =====
+            set KUBECONFIG=%KUBECONFIG%
+
+            kubectl config current-context
+            kubectl get nodes
+
+            kubectl apply -f k8s.yaml --validate=false
+            kubectl rollout restart deployment static-web-deployment
+            '''
         }
+    }
+}
+
     }
 }
