@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "bulbulsharma102001/static-web"
-        TAG = "latest"
+        TAG = "555"
 
         // Jenkins credentials IDs
         DOCKER_CREDS = "dockerhub-creds"
